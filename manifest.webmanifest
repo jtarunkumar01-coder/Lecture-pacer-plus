@@ -1,0 +1,14 @@
+{
+  "name": "Lecture Pacer+ — Study Planner",
+  "short_name": "Pacer+",
+  "description": "A personal CA lecture and revision planner",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fa",
+  "theme_color": "#0e6665",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

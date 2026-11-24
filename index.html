@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e6665">
+  <meta name="description" content="A lecture and revision planner for CA students. Plan intelligently and sync across devices.">
+  <title>Lecture Pacer+ · CA study planner</title>
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="config.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-mark">L<span>+</span></div><div><strong>Lecture Pacer<span class="accent">+</span></strong><small>Your study command center</small></div></div>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <button class="nav-btn active" data-route="overview"><span class="nav-symbol">▦</span> Overview</button>
+      <button class="nav-btn" data-route="lectures"><span class="nav-symbol">▤</span> My lectures</button>
+      <button class="nav-btn" data-route="calendar"><span class="nav-symbol">▦</span> Study calendar</button>
+      <button class="nav-btn" data-route="settings"><span class="nav-symbol">⚙</span> Plan settings</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="quote"><span>✦</span><p>Small progress every day adds up.</p><small>Your consistency matters more than a perfect plan.</small></div>
+      <button id="cloudOpen" class="account-block" aria-label="Manage cloud account"><span id="cloudDot" class="status-dot"></span><span><strong id="cloudShort">Local only</strong><small id="cloudCaption">Tap to enable sync</small></span><span class="chevron">›</span></button>
+    </div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar">
+      <div class="topbar-left"><button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu">☰</button><span class="breadcrumb">MY WORKSPACE <span>/</span> <strong id="breadcrumb">Overview</strong></span></div>
+      <div class="topbar-right"><span id="syncIndicator" class="sync-indicator">● Saved on this device</span><button id="exportQuick" class="top-link">⇩ <span>Backup</span></button><button id="topCloud" class="avatar" aria-label="Cloud account">T</button></div>
+    </header>
+    <main class="content" id="view" tabindex="-1"></main>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="lectureModal" class="modal">
+  <form method="dialog" id="lectureForm" class="modal-form">
+    <div class="modal-head"><div><small class="eyebrow">YOUR STUDY CONTENT</small><h2 id="lectureModalTitle">Add lectures</h2></div><button class="icon-btn close-btn" value="cancel" type="button" data-close="lectureModal">✕</button></div>
+    <div class="field-grid"><label>Subject <select id="lectureSubject" required><option>Advanced Accounting</option><option>Corporate and Other Laws</option><option>Direct Tax</option><option>GST</option><option>Other</option></select></label><label>Chapter <input id="lectureChapter" placeholder="e.g. Company law — Ch. 4" maxlength="120" required></label></div>
+    <label>Lecture title <input id="lectureTitle" placeholder="e.g. Part 1 — Concept & questions" maxlength="150" required></label>
+    <div class="field-grid"><label>Length of each lecture (minutes) <input id="lectureMinutes" type="number" min="1" max="900" value="90" required></label><label id="lectureCountWrap">Number of lectures <input id="lectureCount" type="number" min="1" max="150" value="1" required></label></div>
+    <label>Schedule on a specific date (optional) <input type="date" id="lecturePin"><small class="hint">Leave blank for automatic scheduling.</small></label>
+    <p class="hint">For multiple lectures, numbered titles are created automatically. Edit an individual lecture later if durations differ.</p>
+    <div class="modal-actions"><button type="button" class="btn outline" data-close="lectureModal">Cancel</button><button class="btn primary" id="lectureSubmit" type="submit">Add lectures</button></div>
+  </form>
+</dialog>
+<dialog id="importModal" class="modal">
+  <div class="modal-form">
+    <div class="modal-head"><div><small class="eyebrow">QUICK ENTRY</small><h2>Import lectures</h2></div><button class="icon-btn close-btn" data-close="importModal">✕</button></div>
+    <p class="muted">Choose an Excel (.xlsx) or CSV file, or paste rows using the format shown below. Excel import needs internet the first time the library loads.</p>
+    <input class="fileinput" id="importFile" type="file" accept=".xlsx,.xls,.csv,.txt">
+    <label>Or paste rows (one lecture per line) <textarea id="importText" rows="7" placeholder="Corporate and Other Laws | Share Capital | Lecture 1 | 90\nGST | Supply | Lecture 2 | 75"></textarea></label>
+    <p class="hint">Accepted columns: Subject, Chapter, Lecture, Duration. Also supports 3 columns: Chapter, Lecture, Duration (subject defaults to your chosen import subject).</p>
+    <label>Default subject (for 3-column sheets) <select id="importSubject"><option>Corporate and Other Laws</option><option>Advanced Accounting</option><option>Direct Tax</option><option>GST</option></select></label>
+    <div class="modal-actions"><button class="btn outline" data-close="importModal">Cancel</button><button class="btn primary" id="importRun">Import lectures</button></div>
+  </div>
+</dialog>
+<dialog id="cloudModal" class="modal cloud-modal">
+  <div class="modal-form">
+    <div class="modal-head"><div><small class="eyebrow">ACROSS YOUR DEVICES</small><h2>Cloud sync</h2></div><button class="icon-btn close-btn" data-close="cloudModal">✕</button></div>
+    <div class="security-note"><span>☁</span><p><strong>One account. All your devices.</strong><br>Use the same email and password on iPad, phone, and laptop. Your study plan will sync through your own Supabase project.</p></div>
+    <div id="cloudConnected" hidden><p class="connected-line">✓ Signed in as <strong id="cloudUser"></strong></p><p class="muted">Edits save on this device immediately and upload when online. Other open devices check for updates automatically.</p><div class="modal-actions"><button class="btn outline" id="syncNow">Sync now</button><button class="btn danger-outline" id="signOut">Sign out</button></div></div>
+    <div id="cloudDisconnected">
+      <div id="cloudConfig" class="cloud-config"><details><summary>Cloud not configured? Set up your Supabase connection</summary><p class="hint">Create your own Supabase project, run the included <code>schema.sql</code>, then paste the <strong>Project URL</strong> and <strong>publishable / anon key</strong> here. Never paste a secret or service-role key.</p><label>Supabase project URL <input id="cloudUrl" type="url" placeholder="https://project.supabase.co"></label><label>Publishable / anon key <input id="cloudKey" placeholder="sb_publishable_… or eyJ…"></label><button class="btn small outline" id="saveCloudConfig">Save connection</button></details></div>
+      <form id="authForm" class="auth-form"><label>Email <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></label><label>Password <input id="authPassword" type="password" minlength="6" autocomplete="current-password" placeholder="At least 6 characters" required></label><div class="modal-actions"><button type="button" class="btn outline" id="signUp">Create account</button><button type="submit" class="btn primary">Sign in & sync</button></div></form>
+      <p class="hint">Creating an account may require clicking a confirmation link sent to your email. Keep your project details private except the public URL and publishable key.</p>
+    </div>
+    <p id="cloudError" class="error" role="alert" hidden></p>
+  </div>
+</dialog>
+<dialog id="confirmModal" class="modal small-modal"><div class="modal-form"><h2 id="confirmTitle">Delete lecture?</h2><p class="muted" id="confirmMessage"></p><div class="modal-actions"><button id="confirmCancel" class="btn outline">Cancel</button><button id="confirmYes" class="btn danger">Delete</button></div></div></dialog>
+</body>
+</html>
