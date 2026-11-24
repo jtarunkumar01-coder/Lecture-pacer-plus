@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0e6665">
+  <meta name="theme-color" content="#8652cc">
   <meta name="description" content="A lecture and revision planner for CA students. Plan intelligently and sync across devices.">
   <title>Lecture Pacer+ · CA study planner</title>
   <link rel="icon" href="icon-192.png">
@@ -21,19 +21,20 @@
     <div class="brand"><div class="brand-mark">L<span>+</span></div><div><strong>Lecture Pacer<span class="accent">+</span></strong><small>Your study command center</small></div></div>
     <nav class="nav" id="nav" aria-label="Main navigation">
       <button class="nav-btn active" data-route="overview"><span class="nav-symbol">▦</span> Overview</button>
+      <button class="nav-btn" data-route="clock"><span class="nav-symbol">◷</span> Study clock</button>
       <button class="nav-btn" data-route="lectures"><span class="nav-symbol">▤</span> My lectures</button>
       <button class="nav-btn" data-route="calendar"><span class="nav-symbol">▦</span> Study calendar</button>
       <button class="nav-btn" data-route="settings"><span class="nav-symbol">⚙</span> Plan settings</button>
     </nav>
     <div class="sidebar-bottom">
-      <div class="quote"><span>✦</span><p>Small progress every day adds up.</p><small>Your consistency matters more than a perfect plan.</small></div>
+      <div class="quote" id="quoteCard"><div class="quote-header"><span>❝</span><button type="button" id="editQuote" class="quote-edit" aria-label="Edit motivational quote" title="Edit quote">✎ Edit</button></div><p id="quoteText">Small progress every day adds up.</p><small id="quoteAuthor">Your consistency matters more than a perfect plan.</small><button type="button" class="quote-next" id="nextQuote" aria-label="Next quote" title="Next quote">↻ Next quote</button></div>
       <button id="cloudOpen" class="account-block" aria-label="Manage cloud account"><span id="cloudDot" class="status-dot"></span><span><strong id="cloudShort">Local only</strong><small id="cloudCaption">Tap to enable sync</small></span><span class="chevron">›</span></button>
     </div>
   </aside>
   <div class="main-shell">
     <header class="topbar">
       <div class="topbar-left"><button class="icon-btn menu-toggle" id="menuToggle" aria-label="Open menu">☰</button><span class="breadcrumb">MY WORKSPACE <span>/</span> <strong id="breadcrumb">Overview</strong></span></div>
-      <div class="topbar-right"><span id="syncIndicator" class="sync-indicator">● Saved on this device</span><button id="exportQuick" class="top-link">⇩ <span>Backup</span></button><button id="topCloud" class="avatar" aria-label="Cloud account">T</button></div>
+      <div class="topbar-right"><button id="quickTheme" type="button" class="theme-quick" title="Switch light or dark theme" aria-label="Switch light or dark theme">☾</button><span id="syncIndicator" class="sync-indicator">● Saved on this device</span><button id="exportQuick" class="top-link">⇩ <span>Backup</span></button><button id="topCloud" class="avatar" aria-label="Cloud account">T</button></div>
     </header>
     <main class="content" id="view" tabindex="-1"></main>
   </div>
@@ -74,6 +75,8 @@
     <p id="cloudError" class="error" role="alert" hidden></p>
   </div>
 </dialog>
+<dialog id="quoteModal" class="modal"><form id="quoteForm" class="modal-form"><div class="modal-head"><div><small class="eyebrow">YOUR WORDS, YOUR DRIVE</small><h2>Motivational quotes</h2></div><button class="icon-btn" data-close="quoteModal" type="button">✕</button></div><p class="muted">Keep your own quotes in the sidebar. Add as many as you like, switch between them, or rotate them daily.</p><label>Current quote <textarea id="quoteInput" maxlength="500" rows="3" required></textarea></label><label>Author or supporting line (optional) <input id="quoteAuthorInput" maxlength="140"></label><label class="quote-rotation"><input type="checkbox" id="quoteAuto"> Show a different quote each day</label><div class="modal-actions wrap"><button type="button" class="btn danger-outline" id="quoteDelete">Remove quote</button><button type="button" class="btn outline" id="quoteAdd">Add another</button><button type="submit" class="btn primary">Save quote</button></div></form></dialog>
+<dialog id="sessionModal" class="modal"><form id="sessionForm" class="modal-form"><div class="modal-head"><div><small class="eyebrow">YOUR STUDY CLOCK</small><h2 id="sessionModalTitle">Start a study session</h2></div><button type="button" class="icon-btn" data-close="sessionModal">✕</button></div><label>What are you studying? <select id="sessionSubject" required></select></label><label>Activity or chapter <input id="sessionNote" maxlength="180" placeholder="e.g. AS 24 — practice questions"></label><div class="field-grid" id="sessionTimes"><label>Started at <input id="sessionStart" type="datetime-local"></label><label>Finished at <input id="sessionEnd" type="datetime-local"></label></div><label>Clock segment colour <div class="colour-edit"><input id="sessionColor" type="color" value="#ac7bee"><span id="sessionColorHex">#AC7BEE</span></div></label><p class="hint" id="sessionHint">The active timer keeps time even if the screen locks. Your study clock colours represent the exact recorded time range.</p><div class="modal-actions"><button type="button" class="btn outline" data-close="sessionModal">Cancel</button><button type="submit" class="btn primary" id="sessionSave">Start timer</button></div></form></dialog>
 <dialog id="confirmModal" class="modal small-modal"><div class="modal-form"><h2 id="confirmTitle">Delete lecture?</h2><p class="muted" id="confirmMessage"></p><div class="modal-actions"><button id="confirmCancel" class="btn outline">Cancel</button><button id="confirmYes" class="btn danger">Delete</button></div></div></dialog>
 </body>
 </html>

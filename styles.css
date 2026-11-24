@@ -10,3 +10,100 @@
 .custom-colour-label{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:280px}
 input[type="color"]#customBackground{width:64px;height:41px;padding:3px;border-radius:9px;cursor:pointer;flex:none;margin:0}
 @media(max-width:400px){.background-swatches{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Lecture Pacer+ v1.2 — adaptive themes, clock and editable quote */
+:root{--main-bg:#f3efff;--accent-rgb:139,77,216}
+body{background:var(--main-bg)}
+.sidebar,.topbar{background:var(--card)}
+.card{background:var(--card)}
+.nav-btn.active{background:rgba(var(--accent-rgb),.14);color:var(--green)}
+.nav-btn:hover{background:rgba(var(--accent-rgb),.08)}
+.brand-mark{background:linear-gradient(145deg,var(--green),#6847a6);box-shadow:0 9px 18px rgba(var(--accent-rgb),.18)}
+.brand-mark span{color:#eee5ff}
+.hero{background:linear-gradient(120deg,var(--green),#392064)}
+.hero-kicker{color:#eee4ff}
+.hero p,.hero-count small{color:#eee7f6}
+.kpi.top-green{background:rgba(var(--accent-rgb),.08)}
+.kpi.top-green .kpi-value{color:var(--green)}
+.quote{background:rgba(var(--accent-rgb),.095);color:var(--ink)}
+.quote-header{display:flex;align-items:center;justify-content:space-between}
+.quote-header span{font-size:25px;color:var(--green);font-weight:900}
+.quote-edit,.quote-next{font-size:10px;background:transparent;border:0;color:var(--green);font-weight:800}
+.quote-next{padding:7px 0 0}
+.quote small{color:var(--muted);display:block}
+.theme-quick{border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--ink);height:35px;width:35px;font-size:19px}
+.mode-switch{display:flex;gap:8px;margin:16px 0}
+.mode-option{flex:1;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--ink);padding:12px 9px;font-size:12px;font-weight:750}
+.mode-option.selected{border:2px solid var(--green);background:rgba(var(--accent-rgb),.12);color:var(--green)}
+.colour-edit{display:flex;align-items:center;gap:12px;margin-top:8px}
+.colour-edit input[type=color]{width:74px;min-width:74px;height:44px;padding:4px;cursor:pointer}
+.colour-edit span{font-size:12px;color:var(--muted);font-weight:750}
+.colour-subjects{display:grid;gap:5px}
+.colour-subject{display:flex;align-items:center;justify-content:space-between;margin:0;padding:6px 1px;font-size:12px}
+.colour-subject input[type=color]{width:57px!important;min-width:57px!important;height:39px;padding:4px!important;margin:0!important}
+.quote-rotation{display:flex;align-items:center;gap:8px;font-size:12px}
+.quote-rotation input{accent-color:var(--green)}
+.modal-actions.wrap{flex-wrap:wrap}
+.clock-dashboard{margin-bottom:24px}
+.clock-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:15px}
+.clock-heading h2{font-size:22px;letter-spacing:-.6px;margin:4px 0}
+.clock-heading p{margin:4px 0 0}
+.clock-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.clock-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.clock-main,.session-card{padding:19px;min-width:0}
+.clock-main-inner{display:grid;grid-template-columns:minmax(225px,1.3fr) minmax(170px,.8fr);align-items:center;gap:6px}
+.study-dial{background:transparent;border:0;display:block;width:100%;max-width:370px;margin:auto;aspect-ratio:1;cursor:pointer;color:var(--ink);border-radius:100%;padding:0}
+.study-dial:focus-visible{outline:3px solid var(--green)}
+.study-dial svg{width:100%;height:100%;overflow:visible}
+.clock-track{stroke:rgba(var(--accent-rgb),.09)}
+.clock-tick{stroke:var(--muted);opacity:.75}
+.clock-hour{font-size:13px;font-weight:850;fill:var(--ink)}
+.clock-caption{font-size:9px;letter-spacing:1.1px;font-weight:800;fill:var(--muted)}
+.clock-total{font-size:26px;font-weight:850;fill:var(--ink)}
+.clock-tap{font-size:11px;font-weight:800;fill:var(--green)}
+.clock-legend h3,.session-card h3{font-size:14px;margin:2px 0 16px}
+.clock-legend-item{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:11px}
+.clock-legend-item span:nth-child(2){flex:1}
+.clock-legend-item strong{white-space:nowrap}
+.session-colour{display:inline-block;flex:0 0 11px;width:11px;height:26px;border-radius:7px}
+.clock-target{margin-top:20px;padding-top:14px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:11px}
+.clock-target b{color:var(--green)}
+.clock-target .track{flex-basis:100%}
+.session-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.session-card-head h3{margin:0}
+.session-list{display:grid;gap:7px;max-height:400px;overflow-y:auto}
+.session-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 10px;min-width:0}
+.session-detail{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.session-detail strong{font-size:11px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.session-detail small{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.session-time,.session-duration{font-size:10px;color:var(--muted);white-space:nowrap}
+.session-duration{font-weight:800;color:var(--green)}
+.session-edit{border:0;background:rgba(var(--accent-rgb),.1);border-radius:8px;padding:7px;color:var(--green)}
+.session-live{font-size:10px;color:var(--green);font-weight:750}
+.empty-session{padding:30px 15px;text-align:center;color:var(--muted);font-size:12px;line-height:1.5}
+.clock-info{padding:22px}.clock-info p{font-size:12px;line-height:1.7;color:var(--muted)}
+/* Dark theme, including the original lecture-planner components. */
+:root[data-theme=dark]{color-scheme:dark;--shadow:0 4px 25px #0b081630;--green-light:rgba(var(--accent-rgb),.17)}
+:root[data-theme=dark] html,:root[data-theme=dark] body{background:var(--main-bg)}
+:root[data-theme=dark] .sidebar,:root[data-theme=dark] .topbar,:root[data-theme=dark] .card{background:var(--card);color:var(--ink)}
+:root[data-theme=dark] .brand strong,:root[data-theme=dark] .page-head h1,:root[data-theme=dark] .section-header h2,:root[data-theme=dark] h2,:root[data-theme=dark] h3,:root[data-theme=dark] .lecture-name,:root[data-theme=dark] .lecture-row,:root[data-theme=dark] .today-stat b,:root[data-theme=dark] .kpi-value,:root[data-theme=dark] .subject-line-head strong,:root[data-theme=dark] .lecture-info,:root[data-theme=dark] .modal h2,:root[data-theme=dark] .account-block strong,:root[data-theme=dark] .day-box-date{color:var(--ink)}
+:root[data-theme=dark] .lecture-row,:root[data-theme=dark] .lecture-row.is-done,:root[data-theme=dark] .day-box,:root[data-theme=dark] .day-box.off,:root[data-theme=dark] .filterbar,:root[data-theme=dark] .account-block,:root[data-theme=dark] .background-swatch,:root[data-theme=dark] .modal,:root[data-theme=dark] .select-inline,:root[data-theme=dark] .btn.outline,:root[data-theme=dark] .btn.danger-outline,:root[data-theme=dark] .modal-form,:root[data-theme=dark] .date-pill{background:#251e38;border-color:var(--border);color:var(--ink)}
+:root[data-theme=dark] .revision-check,:root[data-theme=dark] .focus-note,:root[data-theme=dark] .setting-note,:root[data-theme=dark] .security-note,:root[data-theme=dark] .quote,:root[data-theme=dark] .empty-icon,:root[data-theme=dark] .cloud-config details{background:#322445;border-color:var(--border);color:#e0d5ee}
+:root[data-theme=dark] .focus-note b,:root[data-theme=dark] .security-note p,:root[data-theme=dark] .revision-check span,:root[data-theme=dark] .revision-check strong,:root[data-theme=dark] .green-txt{color:#d8bcff}
+:root[data-theme=dark] .kpi.top-green{background:#302445}
+:root[data-theme=dark] .prog-line strong,:root[data-theme=dark] .prog-line,:root[data-theme=dark] label,:root[data-theme=dark] .weekday,:root[data-theme=dark] .breadcrumb strong{color:#ddd2e9}
+:root[data-theme=dark] input:not([type=checkbox]):not([type=file]),:root[data-theme=dark] select,:root[data-theme=dark] textarea{background:#2c2340;border-color:#4a3e60;color:var(--ink)}
+:root[data-theme=dark] .track{background:#413551}
+:root[data-theme=dark] .subj-tag,:root[data-theme=dark] .day-box-task{background:#342a48;color:#e0caef}
+:root[data-theme=dark] .pill.green{background:#3a2a50;color:#dbc4fa}
+:root[data-theme=dark] .top-link,:root[data-theme=dark] .nav-btn{color:#cbbddc}
+:root[data-theme=dark] .nav-btn.active{color:#e8d6ff;background:rgba(var(--accent-rgb),.27)}
+:root[data-theme=dark] .nav-btn:hover{background:#3a2b51}
+:root[data-theme=dark] .quote small{color:#c9bbda}
+:root[data-theme=dark] .hero{background:linear-gradient(120deg,#4a2c78,#251d44)}
+@media(max-width:1220px){.clock-grid{grid-template-columns:1fr}.clock-main-inner{grid-template-columns:minmax(200px,1fr) minmax(180px,1fr)}}
+@media(max-width:610px){.clock-main,.session-card{padding:13px}.clock-main-inner{grid-template-columns:1fr}.study-dial{max-width:300px}.clock-legend{padding:0 10px 10px}.clock-controls{width:100%}.clock-controls .btn{flex:1}.session-time{font-size:9px}.session-row{gap:7px;padding:8px 6px}.session-duration{font-size:9px}.clock-heading h2{font-size:20px}}
+
+.colour-preferences{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.colour-preferences label{margin:0;font-size:10px}.colour-preferences input[type=color]{height:42px;cursor:pointer;padding:4px}@media(max-width:610px){.colour-preferences{grid-template-columns:repeat(2,1fr)}}
+
+.mobile-quote{display:none;padding:17px;margin-bottom:20px;background:rgba(var(--accent-rgb),.08)}.mobile-quote .quote-header{color:var(--green)}.mobile-quote p{font-size:14px;font-weight:750;line-height:1.5}.mobile-quote small{color:var(--muted)}.mobile-quote .quote-next{display:block;margin-top:8px}@media(max-width:980px){.mobile-quote{display:block}}
